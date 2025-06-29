@@ -1,12 +1,21 @@
 <script setup>
-  import { ref } from 'vue';
+  import { ref, onMounted, reactive } from 'vue';
   import { Buffer } from 'buffer';
   import axios from 'axios';
   import fs from 'fs/promises';
 
-  const RANDOM_CAT_URL = "https://cataas.com/cat?json=true"
-  const cat = ref('null')
-  
+  const RANDOM_CAT_URL = 'https://cataas.com/cat?json=true';
+  const RANDOM_QUOTE_URL = 'https://zenquotes.io/api/random';
+  let random_quote = reactive({
+    quote: 'loading',
+    author: 'Leif'
+  });
+
+  onMounted(() => {
+    get_random_cat();
+    get_random_quote();
+  })
+
   async function get_random_cat() {
     try {
       await axios.get(RANDOM_CAT_URL, { responseType: 'arraybuffer' });
@@ -18,15 +27,28 @@
     }
   }
 
+  async function get_random_quote() {
+    try {
+      var res = await axios.get(RANDOM_QUOTE_URL);
+      random_quote.quote = res.data[0].q;
+      random_quote.author = res.data[0].a;
+      console.log(random_quote);
+    } catch (error) {
+      console.log('Error fetching quote!', error);
+    }
+  }
 </script>
 
 <template>
-  <img src="https://cataas.com/cat" alt="random cat">
+  <div class="wrapper">
+    <img class="image" src="https://cataas.com/cat" alt="random cat">
+    <p> {{ random_quote.quote }} </p>
+    <p> - {{ random_quote.author }} </p>
+  </div>
 </template>
 
 <style>
-.greeting {
-  color: red;
-  font-weight: bold;
-}
+  .wrapper {
+    text-color: white;
+  }
 </style>

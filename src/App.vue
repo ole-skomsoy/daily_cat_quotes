@@ -10,7 +10,7 @@
     </div>
   </header>
 
-  <main>
+  <main class="main">
     <FrontPage />
   </main>
 </template>
@@ -35,6 +35,13 @@ header {
     display: flex;
     place-items: flex-start;
     flex-wrap: wrap;
+  }
+
+  main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
   }
 }
 </style>

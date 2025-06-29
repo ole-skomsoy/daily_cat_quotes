@@ -7,7 +7,7 @@
     <div class="navbar-wrapper">
         <div class="navbar">    
             <p class="title">
-                Daily Cat Quotes
+                Daily Cat Quote
             </p>
         </div>
     </div>
