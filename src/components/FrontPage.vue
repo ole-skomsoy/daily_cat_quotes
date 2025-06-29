@@ -49,6 +49,5 @@
 
 <style>
   .wrapper {
-    text-color: white;
   }
 </style>

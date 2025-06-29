@@ -14,12 +14,9 @@
 </template>
 
 <style>
-.title {
-    color: white;
+.title { 
     font-weight: bold;
-    font-family: Monospace;
     font-weight: 400;
-    font-style: normal;
     font-size: 42px;
     margin: auto;
 }

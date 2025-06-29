@@ -1,6 +1,7 @@
 <script setup lang="ts">
   import FrontPage from './components/frontpage.vue';
   import HeaderMenu from './components/HeaderMenu.vue';
+  import Settings from './components/Settings.vue';
 </script>
 
 <template>
@@ -12,6 +13,7 @@
 
   <main class="main">
     <FrontPage />
+    <Settings />
   </main>
 </template>
 
