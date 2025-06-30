@@ -3,7 +3,7 @@
 
 <template>
     <div>
-        <div class="dcq_time">    
+        <div class="dcq_time">
             S E T T I N G S
         </div>
     </div>

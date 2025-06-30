@@ -1,5 +1,5 @@
 <script setup>
-  import { ref, onMounted, reactive } from 'vue';
+  import { ref, onMounted, reactive, computed } from 'vue';
   import { Buffer } from 'buffer';
   import axios from 'axios';
   import fs from 'fs/promises';
@@ -8,12 +8,17 @@
   const RANDOM_QUOTE_URL = 'https://zenquotes.io/api/random';
   let random_quote = reactive({
     quote: 'loading',
-    author: 'Leif'
+    author: 'unknown'
   });
+  let settings = reactive({
+    cat_time_hours: ref(12),
+    cat_time_minutes: ref(0)
+  })
 
   onMounted(() => {
     get_random_cat();
     get_random_quote();
+    setup_settings();
   })
 
   async function get_random_cat() {
@@ -33,9 +38,21 @@
       random_quote.quote = res.data[0].q;
       random_quote.author = res.data[0].a;
       console.log(random_quote);
-    } catch (error) {
+    } catch (error) { 
       console.log('Error fetching quote!', error);
     }
+  }
+
+  function setup_settings() {
+    if(localStorage.cat_time) {
+      settings.cat_time_hours = localStorage.cat_time_hours;
+    } else {
+      settings.cat_time_hours = 12;
+      settings.cat_time_minutes = 0;
+      localStorage.cat_time_hours = settings.cat_time_hours;
+      localStorage.cat_time_minutes = settings.cat_time_minutes;
+    }
+    console.log(settings);
   }
 </script>
 
