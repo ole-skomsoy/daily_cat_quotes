@@ -21,9 +21,9 @@
       await axios.get(RANDOM_CAT_URL, { responseType: 'arraybuffer' });
       const fileData = Buffer.from(response.data, 'binary');
       await fs.writeFile('./random_cat.png', fileData);
-      console.log('PDF file saved!');
+      console.log('PNG file saved!');
     } catch (error) {
-      console.log('Error downloading cat!', error);
+      console.log('Error saving cat!', error);
     }
   }
 
