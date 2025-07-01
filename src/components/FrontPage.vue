@@ -1,5 +1,6 @@
 <script setup>
-  import { ref, onMounted, reactive, computed } from 'vue';
+  import { ref, onMounted, reactive, computed, watchEffect } from 'vue';
+  import { useTimer } from 'vue-timer-hook'
   import { Buffer } from 'buffer';
   import axios from 'axios';
   import fs from 'fs/promises';
@@ -15,6 +16,12 @@
     get_random_cat();
     get_random_quote();
   })
+
+  const timer = useTimer(get_cat_time());
+  const restart_timer = () => {
+      timer.restart(get_cat_time());
+      get_random_cat();
+  }
 
   async function get_random_cat() {
     try {
@@ -36,6 +43,14 @@
     } catch (error) { 
       console.log('Error fetching quote!', error);
     }
+  }
+
+  function get_cat_time() {
+    const next_cat_timer = new Date();
+    next_cat_timer.setDate(next_cat_timer.getDate() + 1);
+    next_cat_timer.setHours(localStorage.cat_time_hours);
+    next_cat_timer.setMinutes(localStorage.cat_time_minutes);
+    return next_cat_timer;
   }
 </script>
 

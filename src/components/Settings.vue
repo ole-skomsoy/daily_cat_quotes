@@ -8,31 +8,32 @@
 
     onMounted(() => {;
         setup_settings();
-        setup_watcher();
+        setup_watchers();
+        watchEffect(async () => {
+            if(timer.isExpired.value) {
+                console.warn('IsExpired')
+            }
+        })
     })
 
     function setup_settings() {
         if(!(localStorage.cat_time_hours && localStorage.cat_time_minutes)) {
-            console.log('No settings in localstorage, setting default');
             localStorage.cat_time_hours =  12;
             localStorage.cat_time_minutes = 0;
             settings.cat_time_hours = localStorage.cat_time_hours;
             settings.cat_time_minutes = localStorage.cat_time_minutes;
         } else {
-            console.log('AHDODASDd');
             settings.cat_time_hours = localStorage.cat_time_hours;
             settings.cat_time_minutes = localStorage.cat_time_minutes;
         }
         console.log(localStorage);
     }
 
-    function setup_watcher() {
+    function setup_watchers() {
         watch(settings, (newSettings, oldSettings) =>  {
-            console.log('Settings updated', newSettings, oldSettings);
             try {
                 localStorage.cat_time_hours = newSettings.cat_time_hours;
                 localStorage.cat_time_minutes = newSettings.cat_time_minutes;
-                console.log('> Updating settings', newSettings, oldSettings);
             } catch (error) {
                 console.log('Error updating settings', error);
             }
