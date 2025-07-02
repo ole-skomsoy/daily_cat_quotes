@@ -19,15 +19,18 @@
     const update_timer = () => {
         elapsed.value = performance.now() - lastTime;
         if (elapsed.value >= duration.value) {
+            console.log('>>> ALL DONE');
+            // emit to frontPage
             cancelAnimationFrame(handle);
         } else {
+            console.log('>>> OMW');
             handle = requestAnimationFrame(update_timer);
         }
     }
 
     const reset_timer = () => {
         elapsed.value = 0;
-        duration = seconds_between_dates(new Date(), get_cat_time())
+        //duration = 10; //seconds_between_dates(new Date(), get_cat_time())
         lastTime = performance.now();
         update_timer();
     }
