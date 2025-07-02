@@ -1,45 +1,12 @@
 <script setup>
     import { ref, onMounted, onUnmounted, reactive, computed, watch, watchEffect } from 'vue';
-
-    const restart_timer = () => {
-        get_random_cat();
-        reset_timer();
-    }
-
-    const countdown = ref(15 * 1000);
-    const elapsed = ref(0)
-    let next_cat_timer = new Date();
-    
-    let lastTime
-    let handle
-
-    const update_timer = () => {
-        elapsed.value = performance.now() - lastTime
-        if (elapsed.value >= duration.value) {
-            cancelAnimationFrame(handle)
-        } else {
-            handle = requestAnimationFrame(update_timer);
-        }
-    }
-
-    const reset_timer = () => {
-        elapsed.value = 0;
-        lastTime = performance.now();
-        
-        next_cat_timer = get_cat_time();
-        countdown = seconds_between_dates(new Date(), next_cat_timer);
-
-        update_timer();
-    }
-
-    const progressRate = computed(() =>
-        Math.min(elapsed.value / duration.value, 1)
-    );
-
     let settings = reactive({
         cat_time_hours: ref(12),
         cat_time_minutes: ref(0)
     });
+
+    const cat_time_hours = computed(() => localStorage.cat_time_hours);
+    const cat_time_minutes = computed(() => localStorage.cat_time_minutes);
 
     onMounted(() => {;
         setup_settings();
@@ -106,10 +73,9 @@
             {{minutes}}
         </option>
       </select>
-    <div>
-        Next cat in:
-        <span>{{next_cat_timer.getHours()}}</span>:<span>{{next_cat_timer.getMinutes()}}</span>:<span>{{next_cat_timer.getSeconds()}}</span>
-    </div>
+    <vue-countdown :time="1 * cat_time_hours * cat_time_minutes * 60 * 1000" v-slot="{ days, hours, minutes, seconds }">
+        Time Remaining：{{ days }} days, {{ hours }} hours, {{ minutes }} minutes, {{ seconds }} seconds
+    </vue-countdown>
     </div>
 </template>
 
