@@ -17,12 +17,6 @@
     get_random_quote();
   })
 
-  const timer = useTimer(get_cat_time());
-  const restart_timer = () => {
-      timer.restart(get_cat_time());
-      get_random_cat();
-  }
-
   async function get_random_cat() {
     try {
       await axios.get(RANDOM_CAT_URL, { responseType: 'arraybuffer' });
@@ -43,14 +37,6 @@
     } catch (error) { 
       console.log('Error fetching quote!', error);
     }
-  }
-
-  function get_cat_time() {
-    const next_cat_timer = new Date();
-    next_cat_timer.setDate(next_cat_timer.getDate() + 1);
-    next_cat_timer.setHours(localStorage.cat_time_hours);
-    next_cat_timer.setMinutes(localStorage.cat_time_minutes);
-    return next_cat_timer;
   }
 </script>
 

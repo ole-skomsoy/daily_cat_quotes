@@ -1,6 +1,41 @@
 <script setup>
-    import { ref, onMounted, reactive, computed, watch } from 'vue';
+    import { ref, onMounted, onUnmounted, reactive, computed, watch, watchEffect } from 'vue';
+
+    const restart_timer = () => {
+        get_random_cat();
+        reset_timer();
+    }
+
+    const countdown = ref(15 * 1000);
+    const elapsed = ref(0)
+    let next_cat_timer = new Date();
     
+    let lastTime
+    let handle
+
+    const update_timer = () => {
+        elapsed.value = performance.now() - lastTime
+        if (elapsed.value >= duration.value) {
+            cancelAnimationFrame(handle)
+        } else {
+            handle = requestAnimationFrame(update_timer);
+        }
+    }
+
+    const reset_timer = () => {
+        elapsed.value = 0;
+        lastTime = performance.now();
+        
+        next_cat_timer = get_cat_time();
+        countdown = seconds_between_dates(new Date(), next_cat_timer);
+
+        update_timer();
+    }
+
+    const progressRate = computed(() =>
+        Math.min(elapsed.value / duration.value, 1)
+    );
+
     let settings = reactive({
         cat_time_hours: ref(12),
         cat_time_minutes: ref(0)
@@ -10,11 +45,12 @@
         setup_settings();
         setup_watchers();
         watchEffect(async () => {
-            if(timer.isExpired.value) {
-                console.warn('IsExpired')
-            }
-        })
+        });
     })
+
+    onUnmounted(() => {
+      cancelAnimationFrame(handle)
+    });
 
     function setup_settings() {
         if(!(localStorage.cat_time_hours && localStorage.cat_time_minutes)) {
@@ -39,6 +75,22 @@
             }
         });
     }
+
+    function get_cat_time() {
+        next_cat_timer = new Date();
+        // next_cat_timer.setDate(next_cat_timer.getDate() + 1);
+        next_cat_timer.setDate(next_cat_timer.getDate());
+        next_cat_timer.setMinutes(15);
+        return next_cat_timer;
+    }
+
+    function seconds_between_dates(date1, date2) {
+        const time1InMs = date1.getTime();
+        const time2InMs = date2.getTime();
+        const diffInMs = Math.abs(time2InMs - time1InMs);
+        const diffInSeconds = diffInMs / 1000;
+        return diffInSeconds;
+    }
 </script>
 
 <template>
@@ -54,6 +106,10 @@
             {{minutes}}
         </option>
       </select>
+    <div>
+        Next cat in:
+        <span>{{next_cat_timer.getHours()}}</span>:<span>{{next_cat_timer.getMinutes()}}</span>:<span>{{next_cat_timer.getSeconds()}}</span>
+    </div>
     </div>
 </template>
 
