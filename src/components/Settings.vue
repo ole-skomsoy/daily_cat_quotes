@@ -1,23 +1,31 @@
 <script setup>
-    import { ref, onMounted, onUnmounted, reactive, computed, watch, watchEffect } from 'vue';
+    import { ref, onMounted, onUnmounted, reactive, computed, watch, watchEffect, onBeforeUnmount } from 'vue';
     let settings = reactive({
         // cat_time_hours: ref(12),
         // cat_time_minutes: ref(0)
-        cat_time_hours: ref(19),
-        cat_time_minutes: ref(20)
+        cat_time_hours: ref(12),
+        cat_time_minutes: ref(0)
     });
 
-    const cat_time_hours = computed(() => localStorage.cat_time_hours);
-    const cat_time_minutes = computed(() => localStorage.cat_time_minutes);
+    var next_cat_timer = new Date();
+    let cat_time_hours = computed(() => localStorage.cat_time_hours);
+    let cat_time_minutes = computed(() => localStorage.cat_time_minutes);
     
+    let seconds_left = 0;
+
     const duration = ref(5 * 1000);
-    const elapsed = ref(0);
+    let elapsed = ref(0);
 
     let lastTime;
     let handle;
 
+    let current_time = new Date();
+    let interval_id = 0;
+
+
     const update_timer = () => {
         elapsed.value = performance.now() - lastTime;
+        console.log(elapsed.value, duration.value, elapsed.value >= duration.value)
         if (elapsed.value >= duration.value) {
             console.log('>>> ALL DONE');
             // emit to frontPage
@@ -42,35 +50,49 @@
     onMounted(() => {;
         setup_settings();
         setup_watchers();
-        reset_timer();
+        //reset_timer();
+        setup_interval();
         watchEffect(async () => {
             // console.log('>>> my watch has ended')
         });
     })
 
+    function setup_interval() {
+        interval_id = setInterval(() => {
+            var cat_time = get_cat_time();
+            console.log(cat_time);
+            seconds_left = seconds_between_dates(cat_time, new Date())
+
+            if (seconds_left <= 0) {
+                console.log('$$$ EMMITTING')
+                increment_cat_timer();
+            }
+            
+            console.log('>>> Checking ...', cat_time);
+        }, 1000);
+    }
+
     onUnmounted(() => {
       cancelAnimationFrame(handle)
     });
 
-    // handleCountdownEnd(() => {
-    //     console.log('>>> my watch has ended')
-    // });
-
-    
+    onBeforeUnmount(() => {
+        clearInterval(interval_id);
+    });
 
     function setup_settings() {
         if(!(localStorage.cat_time_hours && localStorage.cat_time_minutes)) {
             // localStorage.cat_time_hours =  12;
             // localStorage.cat_time_minutes = 0;
-            localStorage.cat_time_hours =  19;
-            localStorage.cat_time_minutes = 20;
+            localStorage.cat_time_hours =  22;
+            localStorage.cat_time_minutes = 45;
             settings.cat_time_hours = localStorage.cat_time_hours;
             settings.cat_time_minutes = localStorage.cat_time_minutes;
         } else {
-            settings.cat_time_hours = 19;
-            settings.cat_time_minutes = 20
-            // settings.cat_time_hours = localStorage.cat_time_hours;
-            // settings.cat_time_minutes = localStorage.cat_time_minutes;
+            // settings.cat_time_hours = 19;
+            // settings.cat_time_minutes = 20
+            settings.cat_time_hours = localStorage.cat_time_hours;
+            settings.cat_time_minutes = localStorage.cat_time_minutes;
         }
         console.log(localStorage);
     }
@@ -89,8 +111,13 @@
     function get_cat_time() {
         next_cat_timer = new Date();
         next_cat_timer.setDate(next_cat_timer.getDate());
-        next_cat_timer.setMinutes(15);
+        next_cat_timer.setHours(23);
+        next_cat_timer.setMinutes(4);
         return next_cat_timer;
+    }
+
+    function increment_cat_timer() {
+        next_cat_timer.setDate(next_cat_timer.getDate() + 1);
     }
 
     function seconds_between_dates(date1, date2) {
@@ -120,10 +147,11 @@
     <!-- <vue-countdown :time="1 * 1 * cat_time_test * 1 * 1000" v-slot="{ days, hours, minutes, seconds }">
         Time Remaining：{{ days }} days, {{ hours }} hours, {{ minutes }} minutes, {{ seconds }} seconds
     </vue-countdown> -->
-        <label>
+        
+        <div>
             Elapsed Time: <progress :value="progress_rate"></progress>
-        </label>
-        <div>{{ (elapsed / 1000).toFixed(1) }}s</div>
+            {{ (elapsed / 1000).toFixed(1) }}s
+        </div>
 
         <div>
             Duration: <input type="range" v-model="duration" min="1" max="30000">
