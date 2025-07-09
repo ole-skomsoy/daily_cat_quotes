@@ -8,20 +8,20 @@
     });
 
     var next_cat_timer = new Date();
-    let cat_time_hours = computed(() => localStorage.cat_time_hours);
-    let cat_time_minutes = computed(() => localStorage.cat_time_minutes);
+    let cat_time_hours = computed(() => localStorage.cat_time_hours | hour);
+    let cat_time_minutes = computed(() => localStorage.cat_time_minutes | minutes);
     
     let seconds_left = 0;
 
-    const duration = ref(5 * 1000);
-    let elapsed = ref(0);
-
+    
     let lastTime;
     let handle;
-
+    
     let current_time = new Date();
     let interval_id = 0;
-
+    
+    let duration = ref(5 * 1000);
+    let elapsed = ref(0);
 
     const update_timer = () => {
         elapsed.value = performance.now() - lastTime;
@@ -50,25 +50,20 @@
     onMounted(() => {;
         setup_settings();
         setup_watchers();
-        //reset_timer();
         setup_interval();
-        watchEffect(async () => {
-            // console.log('>>> my watch has ended')
-        });
     })
 
     function setup_interval() {
         interval_id = setInterval(() => {
             var cat_time = get_cat_time();
-            console.log(cat_time);
             seconds_left = seconds_between_dates(cat_time, new Date())
 
             if (seconds_left <= 0) {
-                console.log('$$$ EMMITTING')
+                console.log('$$$ EMMITTING, resetting timer')
                 increment_cat_timer();
             }
-            
-            console.log('>>> Checking ...', cat_time);
+            elapsed.value += 1000;
+            console.log('>>> Checking ...', seconds_left, cat_time);
         }, 1000);
     }
 
@@ -108,16 +103,27 @@
         });
     }
 
+    // works
     function get_cat_time() {
         next_cat_timer = new Date();
         next_cat_timer.setDate(next_cat_timer.getDate());
-        next_cat_timer.setHours(23);
-        next_cat_timer.setMinutes(4);
+        next_cat_timer.setHours(7);
+        next_cat_timer.setMinutes(45);
+        next_cat_timer.setSeconds(0);
         return next_cat_timer;
+
+
+        // next_cat_timer = new Date();
+        // next_cat_timer.setDate(next_cat_timer.getDate() + 1);
+        // next_cat_timer.setHours(23);
+        // next_cat_timer.setMinutes(4);
+        // next_cat_timer.setSeconds(0);
+        // return next_cat_timer;
     }
 
     function increment_cat_timer() {
         next_cat_timer.setDate(next_cat_timer.getDate() + 1);
+        elapsed.value = 0;
     }
 
     function seconds_between_dates(date1, date2) {
@@ -143,10 +149,10 @@
         </option>
       </select>
 
-    <!-- <vue-countdown :time="1 * cat_time_hours * cat_time_minutes * 60 * 1000" v-slot="{ days, hours, minutes, seconds }"> -->
+    <vue-countdown :time="1 * cat_time_hours * cat_time_minutes * 60 * 1000" v-slot="{ days, hours, minutes, seconds }"> -->
     <!-- <vue-countdown :time="1 * 1 * cat_time_test * 1 * 1000" v-slot="{ days, hours, minutes, seconds }">
         Time Remaining：{{ days }} days, {{ hours }} hours, {{ minutes }} minutes, {{ seconds }} seconds
-    </vue-countdown> -->
+    </vue-countdown>
         
         <div>
             Elapsed Time: <progress :value="progress_rate"></progress>
