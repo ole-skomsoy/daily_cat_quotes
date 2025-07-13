@@ -30,9 +30,11 @@
 
   async function get_random_quote() {
     try {
-      var res = await axios.get(RANDOM_QUOTE_URL);
-      random_quote.quote = res.data[0].q;
-      random_quote.author = res.data[0].a;
+      // var res = await axios.get(RANDOM_QUOTE_URL);
+      // random_quote.quote = res.data[0].q;
+      // random_quote.author = res.data[0].a;
+      random_quote.quote = 'Man should fear never beginning to live.';
+      random_quote.author = 'Marcus Aurelius';
       console.log(random_quote);
     } catch (error) { 
       console.log('Error fetching quote!', error);
