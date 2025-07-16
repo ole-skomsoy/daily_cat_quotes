@@ -4,6 +4,7 @@
   import { Buffer } from 'buffer';
   import axios from 'axios';
   import fs from 'fs/promises';
+  import Settings from './Settings.vue';
 
   const RANDOM_CAT_URL = 'https://cataas.com/cat?json=true';
   const RANDOM_QUOTE_URL = 'https://zenquotes.io/api/random';
@@ -47,6 +48,7 @@
     <img class="image" src="https://cataas.com/cat" alt="random cat">
     <p> {{ random_quote.quote }} </p>
     <p> - {{ random_quote.author }} </p>
+    <Settings />
   </div>
 </template>
 
