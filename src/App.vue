@@ -13,7 +13,6 @@
 
   <main class="main">
     <FrontPage />
-    <Settings />
   </main>
 </template>
 

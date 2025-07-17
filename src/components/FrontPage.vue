@@ -23,7 +23,6 @@
       await axios.get(RANDOM_CAT_URL, { responseType: 'arraybuffer' });
       const fileData = Buffer.from(response.data, 'binary');
       await fs.writeFile('./random_cat.png', fileData);
-      console.log('PNG file saved!');
     } catch (error) {
       console.log('Error saving cat!', error);
     }
@@ -41,10 +40,16 @@
       console.log('Error fetching quote!', error);
     }
   }
+
+  async function handle_new_cat_quote() {
+    await get_random_cat();
+    await get_random_quote();
+  }
+  
 </script>
 
 <template>
-  <div class="wrapper">
+  <div class="wrapper" @new_cat_quote="handle_new_cat_quote | async">
     <img class="image" src="https://cataas.com/cat" alt="random cat">
     <p> {{ random_quote.quote }} </p>
     <p> - {{ random_quote.author }} </p>

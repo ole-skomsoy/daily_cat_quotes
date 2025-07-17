@@ -1,10 +1,16 @@
 <script setup>
     import { ref, onMounted, onBeforeUnmount } from 'vue';
+    
     const next_cat_time = ref(null);
     const hours_left = ref(0);
     const minutes_left = ref(0);
+
+    const selected_hour = ref(12);
+    const selected_minute = ref(0);
+
     let interval_id = 0;
-    const interval_counter = ref(5);
+
+    defineEmits(['new_cat_quote'])
 
     onMounted(() => {;
         setup_settings();
@@ -36,20 +42,41 @@
         interval_id = setInterval(() => {
             hours_left.value = ((next_cat_time.value - new Date()) / 1000 / 60 / 60).toFixed(0);
             
-            let temp_date = new Date();
+            const temp_date = new Date();
             temp_date.setDate(temp_date.getDate() + 1);
 
             let temp_minutes = next_cat_time.value.getMinutes();
             if (temp_minutes == 0) temp_minutes = 60;
 
             minutes_left.value = Math.abs(temp_minutes - temp_date.getMinutes());
-            interval_counter.value += 1;
+
+            if (hours_left.value == 0 && minutes_left.value == 0) {
+                next_cat_time.value.setDate(next_cat_time.value.getDate() + 1);
+                $emit('new_cat_quote');
+            }    
         }, 1000);
     }
 </script>
 
 <template>
-    <slot></slot>
+    <div>
+        <br>
+        <span><b>Cat time o'clock</b></span>
+        <br>
+        <select v-model="selected_hour">
+            <option v-for="n in 24" :value="n-1">{{ n-1 }}</option>
+        </select>
+        <select v-model="selected_minute">
+            <option v-for="n in 60" :value="n-1">{{ n-1 }}</option>
+        </select>
+        <br>
+        <br>
+        <span><b>Next cat time</b></span>
+        <br>
+        <span>{{ next_cat_time }}</span> 
+        <br>
+        <span>{{ hours_left }} hours, {{ minutes_left }} minutes remaining</span>
+    </div>
 </template>
 
 <style>
