@@ -41,6 +41,7 @@
     function setup_interval() {
         interval_id = setInterval(() => {
             hours_left.value = ((next_cat_time.value - new Date()) / 1000 / 60 / 60).toFixed(0);
+            console.log('> hours left', hours_left.value);
             
             const temp_date = new Date();
             temp_date.setDate(temp_date.getDate() + 1);
@@ -56,6 +57,12 @@
             }    
         }, 1000);
     }
+
+    function handle_alarm_time_changed() {
+        console.log('> hour changed');
+        next_cat_time.value.setHours(selected_hour.value);
+        next_cat_time.value.setMinutes(selected_minute.value);
+    }
 </script>
 
 <template>
@@ -63,10 +70,10 @@
         <br>
         <span><b>Cat time o'clock</b></span>
         <br>
-        <select v-model="selected_hour">
+        <select v-model="selected_hour" @change="handle_alarm_time_changed">
             <option v-for="n in 24" :value="n-1">{{ n-1 }}</option>
         </select>
-        <select v-model="selected_minute">
+        <select v-model="selected_minute" @change="handle_alarm_time_changed">
             <option v-for="n in 60" :value="n-1">{{ n-1 }}</option>
         </select>
         <br>
