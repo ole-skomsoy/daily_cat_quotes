@@ -23,36 +23,44 @@
 
     function setup_settings() {
         if (localStorage.next_cat_time) {
-            next_cat_time.value = localStorage.next_cat_time;
+            next_cat_time.value = new Date(localStorage.next_cat_time);
+            selected_hour.value = next_cat_time.value.getHours();
+            selected_minute.value = next_cat_time.value.getMinutes();
             return;
         }
+
         let next_alarm = new Date();
         next_alarm.setHours(12, 0, 0, 0);
 
         if (next_alarm < new Date) {
             next_alarm.setDate(new Date().getDate()+1);
             next_alarm.setHours(12, 0, 0, 0);
-            console.log('> Alarm has expired, new:', next_alarm);
         }
 
         next_cat_time.value = next_alarm;
+        localStorage.setItem('next_cat_time', next_cat_time.value.toString());
+        selected_hour.value = next_cat_time.value.getHours();
+        selected_minute.value = next_cat_time.value.getMinutes();
+
+        console.log('stored1', localStorage.next_cat_time.value);
+        console.log('stored1', new Date(localStorage.next_cat_time));
     }
 
     function setup_interval() {
         interval_id = setInterval(() => {
             hours_left.value = ((next_cat_time.value - new Date()) / 1000 / 60 / 60).toFixed(0);
-            console.log('> hours left', hours_left.value);
             
             const temp_date = new Date();
             temp_date.setDate(temp_date.getDate() + 1);
 
-            let temp_minutes = next_cat_time.value.getMinutes();
+            let temp_minutes = new Date(next_cat_time.value).getMinutes();
             if (temp_minutes == 0) temp_minutes = 60;
 
             minutes_left.value = Math.abs(temp_minutes - temp_date.getMinutes());
 
             if (hours_left.value == 0 && minutes_left.value == 0) {
                 next_cat_time.value.setDate(next_cat_time.value.getDate() + 1);
+                localStorage.setItem('next_cat_time', next_cat_time.toString());
                 $emit('new_cat_quote');
             }    
         }, 1000);
@@ -60,8 +68,14 @@
 
     function handle_alarm_time_changed() {
         console.log('> hour changed');
+        
+        const new_date = new Date(localStorage.next_cat_time)
+        new_date.setHours(selected_hour.value);
+        new_date.setMinutes(selected_minute.value)
+        localStorage.setItem('next_cat_time', new_date.toString());
+
         next_cat_time.value.setHours(selected_hour.value);
-        next_cat_time.value.setMinutes(selected_minute.value);
+        next_cat_time.value.setMinutes(selected_minute.value);        
     }
 </script>
 
