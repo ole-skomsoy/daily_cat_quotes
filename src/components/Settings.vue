@@ -10,7 +10,7 @@
 
     let interval_id = 0;
 
-    defineEmits(['new_cat_quote'])
+    const emit = defineEmits(['new_cat_quote'])
 
     onMounted(() => {;
         setup_settings();
@@ -61,7 +61,7 @@
             if (hours_left.value == 0 && minutes_left.value == 0) {
                 next_cat_time.value.setDate(next_cat_time.value.getDate() + 1);
                 localStorage.setItem('next_cat_time', next_cat_time.toString());
-                $emit('new_cat_quote');
+                emit('new_cat_quote');
             }    
         }, 1000);
     }
@@ -76,6 +76,11 @@
 
         next_cat_time.value.setHours(selected_hour.value);
         next_cat_time.value.setMinutes(selected_minute.value);        
+    }
+
+    function refresh() {
+        emit('new_cat_quote', "pls");
+        console.log('> refreshing');
     }
 </script>
 
@@ -97,6 +102,9 @@
         <span>{{ next_cat_time }}</span> 
         <br>
         <span>{{ hours_left }} hours, {{ minutes_left }} minutes remaining</span>
+        <br>
+        <br>
+        <button @click="refresh()">Refresh</button>
     </div>
 </template>
 
