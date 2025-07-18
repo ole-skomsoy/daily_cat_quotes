@@ -12,17 +12,38 @@
     quote: 'loading',
     author: 'unknown'
   });
+  const cat_image_url = ref(null);
 
   onMounted(() => {
     get_random_cat();
     get_random_quote();
   })
 
+  // async function get_random_cat() {
+  //   try {
+  //     var res = await axios.get(RANDOM_CAT_URL, { responseType: 'Blob' });
+  //     cat_image_url.value = URL.createObjectURL(blob.url);
+  //     console.log('res', res);
+  //     console.log('url', cat_image_url.value)
+      
+      
+  //     const fileData = Buffer.from(response?.data, 'binary');
+  //     await fs.writeFile('./random_cat.png', fileData);
+  //   } catch (error) {
+  //     console.log('Error saving cat!', error);
+  //   }
+  // }
+
   async function get_random_cat() {
     try {
-      await axios.get(RANDOM_CAT_URL, { responseType: 'arraybuffer' });
-      const fileData = Buffer.from(response?.data, 'binary');
-      await fs.writeFile('./random_cat.png', fileData);
+      var res = await fetch(RANDOM_CAT_URL);
+      console.log('res', res);
+
+      const blob = await res.blob();
+      console.log('blob', blob)
+
+      cat_image_url.value = URL.createObjectURL(blob);
+      console.log('url', cat_image_url.value)
     } catch (error) {
       console.log('Error saving cat!', error);
     }
@@ -51,7 +72,9 @@
 
 <template>
   <div class="wrapper">
-    <img class="image" src="https://cataas.com/cat" alt="random cat">
+    <!-- <img class="image" src="https://cataas.com/cat" alt="random cat"> -->
+    <img class="image" src="http://localhost:5173/1bf2d98c-4e26-4af5-8bc3-96096703db1a" alt="random cat">
+    <p> {{ cat_image_url }} </p>
     <p> {{ random_quote.quote }} </p>
     <p> - {{ random_quote.author }} </p>
     <Settings @new_cat_quote="handle_new_cat_quote" />
