@@ -1,7 +1,7 @@
 <script setup>
   import { ref } from 'vue'
   const greeting = ref('Hello World!')
-  const IS_DOG = true;
+  const IS_DOG = false;
 </script>
 
 <template>

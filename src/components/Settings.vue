@@ -102,7 +102,7 @@
         <br>
         <span>{{ next_cat_time }}</span> 
         <br>
-        <span>{{ hours_left }} hours, {{ minutes_left }} minutes remaining</span>
+        <span>[{{ hours_left }} hours, {{ minutes_left }} minutes]</span>
         <br>
         <br>
         <button @click="refresh()">Refresh</button>

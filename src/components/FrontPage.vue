@@ -8,7 +8,7 @@
   const CAT_API_URL = 'https://api.thecatapi.com/v1';
   const CAT_API_KEY = 'live_9bCIgtoNdvfgBrvadQ93rQI6mrRjhL7vn7UrfKSqEa2XiTVD0WXU06jeZUwPeEYU';
 
-  const IS_DOG = true;
+  const IS_DOG = false;
 
   let random_quote = reactive({
     quote: 'loading',
@@ -83,7 +83,7 @@
     if (IS_DOG)
       get_random_dog(true)
     else
-      get_random_cat(false)
+      get_random_cat(true)
     await get_random_quote(true);
   }
   
@@ -100,5 +100,8 @@
 
 <style>
   .wrapper {
+  }
+  .image {
+    object-fit: cover;
   }
 </style>
