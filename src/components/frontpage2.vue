@@ -40,17 +40,13 @@
   }
 
   async function get_random_dog(force) {
-    console.log(force)
     try {
       var dog_image_url = localStorage.dog_image_url;
-      console.log(dog_image_url)
       if (dog_image_url == null || force) {
         var response = await fetch(`${RANDOM_DOG_URL}/breeds/image/random`)
         const response_json = await response.json()
-        console.log(response_json)
         dog_image_url = response_json.message
         localStorage.dog_image_url = response_json.message
-        console.log(response)
       }
         var image_element = document.getElementById('cat_image');
         image_element.src = dog_image_url;
@@ -72,14 +68,12 @@
       }
       random_quote.quote = quote;
       random_quote.author = author;
-      console.log(random_quote);
     } catch (error) { 
       console.log('Error fetching quote!', error);
     }
   }
 
   async function handle_new_cat_quote() {
-    console.log('> refreshing idd');
     if (IS_DOG)
       get_random_dog(true)
     else

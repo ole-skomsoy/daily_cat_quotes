@@ -42,9 +42,6 @@
         localStorage.setItem('next_cat_time', next_cat_time.value.toString());
         selected_hour.value = next_cat_time.value.getHours();
         selected_minute.value = next_cat_time.value.getMinutes();
-
-        console.log('stored1', localStorage.next_cat_time.value);
-        console.log('stored1', new Date(localStorage.next_cat_time));
     }
 
     function setup_interval() {
@@ -67,9 +64,7 @@
         }, 1000);
     }
 
-    function handle_alarm_time_changed() {
-        console.log('> hour changed');
-        
+    function handle_alarm_time_changed() {        
         const new_date = new Date(localStorage.next_cat_time)
         new_date.setHours(selected_hour.value);
         new_date.setMinutes(selected_minute.value)
@@ -81,7 +76,6 @@
 
     function refresh() {
         emit('new_cat_quote', "pls");
-        console.log('> refreshing');
     }
 </script>
 
