@@ -34,12 +34,12 @@
 
 <template>
   <header>
-    <div class="wrapper">
+    <div style="width:100%" class="wrapper">
       <HeaderMenu />
     </div>
   </header>
 
-  <main class="main">
+  <main style="width:100%" class="main">
     <FrontPage />
   </main>
 </template>

@@ -136,7 +136,7 @@ import { ref, onMounted, onBeforeUnmount } from 'vue';
         <span>[{{ hours_left }} hours, {{ minutes_left }} minutes]</span>
         <br>
         <br>
-        <!-- <button @click="refresh()">Refresh</button> -->
+        <button @click="refresh()">I can't wait</button>
     </div>
 </template>
 
