@@ -4,5 +4,5 @@ import './assets/main.css'
 import App from './App.vue'
 
 const app = createApp(App);
-app.component(VueCountdown.name, VueCountdown);
+app.component(VueCountdown.name || 'Daily Cat Quotes', VueCountdown);
 app.mount('#app');
