@@ -21,7 +21,7 @@
 .title { 
     font-weight: bold;
     font-weight: 400;
-    font-size: 42px;
+    font-size: 24px;
     margin: auto;
 }
 .navbar-wrapper {
