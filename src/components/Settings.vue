@@ -136,7 +136,10 @@ import { ref, onMounted, onBeforeUnmount } from 'vue';
         <span>[{{ hours_left }} hours, {{ minutes_left }} minutes]</span>
         <br>
         <br>
-        <button @click="refresh()">I can't wait</button>
+        <br>
+        <div style="display: flex; flex-direction: row; align-items: end; justify-content: center;">
+            <button @click="refresh()">I can't wait</button>
+        </div>
     </div>
 </template>
 
