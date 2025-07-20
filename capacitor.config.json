@@ -1,6 +1,6 @@
 {
-  "appId": "86f02a7a",
+  "appId": "daily.cat.quotes",
   "appName": "Daily Cat Quotes",
-  "webDir": "./",
+  "webDir": "./index.html",
   "bundledWebRuntime": false
 }
