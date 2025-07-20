@@ -1,12 +1,16 @@
 <script setup>
   import { ref } from 'vue'
   const greeting = ref('Hello World!')
+  const IS_DOG = true;
 </script>
 
 <template>
     <div class="navbar-wrapper">
         <div class="navbar">    
-            <p class="title">
+            <p v-if="IS_DOG" class="title">
+                Daily Dog Quote
+            </p>
+            <p v-if="!IS_DOG" class="title">
                 Daily Cat Quote
             </p>
         </div>

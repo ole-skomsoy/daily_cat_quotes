@@ -49,7 +49,7 @@
 
     function setup_interval() {
         interval_id = setInterval(() => {
-            hours_left.value = ((new Date() - next_cat_time.value) / 1000 / 60 / 60).toFixed(0);
+            hours_left.value = ((next_cat_time.value - new Date()) / 1000 / 60 / 60).toFixed(0);
             
             const temp_date = new Date();
             temp_date.setDate(temp_date.getDate() + 1);

@@ -1,36 +1,37 @@
 <script setup>
-  import { ref, onMounted, reactive, computed, watchEffect } from 'vue';
-  import { useTimer } from 'vue-timer-hook'
-  import { Buffer } from 'buffer';
+  import { onMounted, reactive } from 'vue';
   import axios from 'axios';
-  import fs from 'fs/promises';
   import Settings from './Settings.vue';
 
   const RANDOM_QUOTE_URL = 'https://zenquotes.io/api/random';
+  const RANDOM_DOG_URL = 'https://dog.ceo/api';
   const CAT_API_URL = 'https://api.thecatapi.com/v1';
   const CAT_API_KEY = 'live_9bCIgtoNdvfgBrvadQ93rQI6mrRjhL7vn7UrfKSqEa2XiTVD0WXU06jeZUwPeEYU';
+
+  const IS_DOG = true;
 
   let random_quote = reactive({
     quote: 'loading',
     author: 'unknown'
   });
-  const cat_image_url = ref(null);
-  let cat_url = '';
 
   onMounted(() => {
-    get_random_cat();
-    get_random_quote();
+    if (IS_DOG)
+      get_random_dog(false)
+    else
+      get_random_cat(false)
+    get_random_quote(false);
   })
 
-  async function get_random_cat() {
+  async function get_random_cat(force) {
     try {
       var cat_image_url = localStorage.cat_image_url;
-      if (cat_image_url == null) {
-        var response = await fetch(`${CAT_API_URL}/images/search?api_key=${CAT_API_KEY}`);
-        const response_json = await response.json()
-        cat_image_url = response_json[0]['url'];
-        localStorage.cat_image_url = response_json[0]['url']
-      }
+    if (cat_image_url == null || force) {
+      var response = await fetch(`${CAT_API_URL}/images/search?api_key=${CAT_API_KEY}`);
+      const response_json = await response.json()
+      cat_image_url = response_json[0]['url'];
+      localStorage.cat_image_url = response_json[0]['url']
+    }
       var image_element = document.getElementById('cat_image');
       image_element.src = cat_image_url;
     } catch (error) {
@@ -38,11 +39,31 @@
     }
   }
 
-  async function get_random_quote() {
+  async function get_random_dog(force) {
+    console.log(force)
+    try {
+      var dog_image_url = localStorage.dog_image_url;
+      console.log(dog_image_url)
+      if (dog_image_url == null || force) {
+        var response = await fetch(`${RANDOM_DOG_URL}/breeds/image/random`)
+        const response_json = await response.json()
+        console.log(response_json)
+        dog_image_url = response_json.message
+        localStorage.dog_image_url = response_json.message
+        console.log(response)
+      }
+        var image_element = document.getElementById('cat_image');
+        image_element.src = dog_image_url;
+    } catch (error) {
+      console.log('Error saving dog!', error);
+    }
+  }
+
+  async function get_random_quote(force) {
     try {
       var quote = localStorage.quote;
       var author = localStorage.author;
-      if (quote == null) {
+      if (quote == null || force) {
         var response = await axios.get(RANDOM_QUOTE_URL);
         quote = response.data[0].q;
         author = response.data[0].a
@@ -59,8 +80,11 @@
 
   async function handle_new_cat_quote() {
     console.log('> refreshing idd');
-    await get_random_cat();
-    await get_random_quote();
+    if (IS_DOG)
+      get_random_dog(true)
+    else
+      get_random_cat(false)
+    await get_random_quote(true);
   }
   
 </script>
@@ -68,8 +92,6 @@
 <template>
   <div class="wrapper">
     <img id="cat_image" class="image" src="" alt="random cat">
-    <!--img class="image" src="" alt="random cat"-->
-    <!-- <p> {{ cat_image_url }} </p> -->
     <p> {{ random_quote.quote }} </p>
     <p> - {{ random_quote.author }} </p>
     <Settings @new_cat_quote="handle_new_cat_quote" />
