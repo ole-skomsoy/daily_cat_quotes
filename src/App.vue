@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import FrontPage from './components/frontpage.vue';
+  import FrontPage from './components/frontpage2.vue';
   import HeaderMenu from './components/HeaderMenu.vue';
   import Settings from './components/Settings.vue';
 </script>
