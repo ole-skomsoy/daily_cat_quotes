@@ -61,7 +61,7 @@ import { ref, onMounted, onBeforeUnmount } from 'vue';
                 next_cat_time.value.setDate(next_cat_time.value.getDate() + 1);
                 localStorage.setItem('next_cat_time', next_cat_time.toString());
                 emit('new_cat_quote');
-                send_push_notification();
+                subscribeUser()
             }    
         }, 1000);
     }

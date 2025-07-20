@@ -3,6 +3,14 @@ apply plugin: 'com.android.application'
 android {
     namespace "daily.cat.quotes"
     compileSdk rootProject.ext.compileSdkVersion
+    signingConfigs {
+		release {
+			storeFile file("release-key.jks")
+			storePassword "231094Olee"
+			keyAlias "my-key-alias"
+			keyPassword "231094Olee"
+		}
+    }
     defaultConfig {
         applicationId "daily.cat.quotes"
         minSdkVersion rootProject.ext.minSdkVersion
@@ -21,15 +29,7 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
-    },
-	signingConfigs {
-		release {
-			storeFile file("release-key.jks")
-			storePassword "231094Olee"
-			keyAlias "my-key-alias"
-			keyPassword "231094Olee"
-		}
-	}
+    }
 }
 
 repositories {
