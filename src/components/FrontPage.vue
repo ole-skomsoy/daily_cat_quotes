@@ -24,25 +24,15 @@
 
   async function get_random_cat() {
     try {
-      // check localstorage
       var cat_image_url = localStorage.cat_image_url;
       if (cat_image_url == null) {
-        console.log(1)
         var response = await fetch(`${CAT_API_URL}/images/search?api_key=${CAT_API_KEY}`);
         const response_json = await response.json()
-
-        console.log(11, response, response_json)
         cat_image_url = response_json[0]['url'];
-        console.log(2, cat_image_url)
         localStorage.cat_image_url = response_json[0]['url']
-        console.log(3, localStorage.cat_image_url)
       }
-
       var image_element = document.getElementById('cat_image');
-      console.log(4, image_element)
-      console.log(image_element)
       image_element.src = cat_image_url;
-      console.log(5, image_element.src)
     } catch (error) {
       console.log('Error saving cat!', error);
     }
@@ -50,11 +40,17 @@
 
   async function get_random_quote() {
     try {
-      var res = await axios.get(RANDOM_QUOTE_URL);
-      random_quote.quote = res.data[0].q;
-      random_quote.author = res.data[0].a;
-      // random_quote.quote = 'Man should fear never beginning to live.';
-      // random_quote.author = 'Marcus Aurelius';
+      var quote = localStorage.quote;
+      var author = localStorage.author;
+      if (quote == null) {
+        var response = await axios.get(RANDOM_QUOTE_URL);
+        quote = response.data[0].q;
+        author = response.data[0].a
+        localStorage.quote = response.data[0].q;
+        localStorage.author = response.data[0].a
+      }
+      random_quote.quote = quote;
+      random_quote.author = author;
       console.log(random_quote);
     } catch (error) { 
       console.log('Error fetching quote!', error);
