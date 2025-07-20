@@ -3,7 +3,8 @@
   import axios from 'axios';
   import Settings from './Settings.vue';
 
-  const RANDOM_QUOTE_URL = 'https://zenquotes.io/api/random';
+  const RANDOM_QUOTE_URL_OLD = 'https://zenquotes.io/api/random';
+  const RANDOM_QUOTE_URL = 'https://favqs.com/api/qotd';
   const RANDOM_DOG_URL = 'https://dog.ceo/api';
   const CAT_API_URL = 'https://api.thecatapi.com/v1';
   const CAT_API_KEY = 'live_9bCIgtoNdvfgBrvadQ93rQI6mrRjhL7vn7UrfKSqEa2XiTVD0WXU06jeZUwPeEYU';
@@ -58,20 +59,29 @@
     }
   }
 
+  // async function get_random_quote(force) {
+  //   try {
+  //     var quote = localStorage.quote;
+  //     var author = localStorage.author;
+  //     // if (quote == null || force) {
+  //       var response = await axios.get(RANDOM_QUOTE_URL);
+  //       quote = response.data[0].q;
+  //       author = response.data[0].a
+  //       localStorage.quote = response.data[0].q;
+  //       localStorage.author = response.data[0].a
+  //     // }
+  //     random_quote.quote = quote;
+  //     random_quote.author = author;
+  //   } catch (error) { 
+  //     console.log('Error fetching quote!', error);
+  //   }
+  // }
   async function get_random_quote(force) {
     try {
-      var quote = localStorage.quote;
-      var author = localStorage.author;
-      // if (quote == null || force) {
-        var response = await axios.get(RANDOM_QUOTE_URL);
-        quote = response.data[0].q;
-        author = response.data[0].a
-        localStorage.quote = response.data[0].q;
-        localStorage.author = response.data[0].a
-      // }
-      random_quote.quote = quote;
-      random_quote.author = author;
-    } catch (error) { 
+      var quote = await axios.get(RANDOM_QUOTE_URL);
+      random_quote.quote = quote['data']['quote']['body'];
+      random_quote.author = quote['data']['quote']['author'];
+    } catch (error) {
       console.log('Error fetching quote!', error);
     }
   }
