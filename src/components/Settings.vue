@@ -1,6 +1,7 @@
 <script setup>
-    import { ref, onMounted, onBeforeUnmount } from 'vue';
+import { ref, onMounted, onBeforeUnmount } from 'vue';
 
+    const publicVapidKey = 'BL4R_IjmzWK4xN_6I7WY7NgprV9hJ0ALlj3lTon1bW7v_5Y5SEEr6zoeI8tY9yMZRbNCii7_Okbj71DP_iAfVPw';
     const next_cat_time = ref(null);
     const hours_left = ref(0);
     const minutes_left = ref(0);
@@ -56,10 +57,11 @@
 
             minutes_left.value = Math.abs(temp_minutes - temp_date.getMinutes());
 
-            if (hours_left.value == 0 && minutes_left.value == 0) {
+            if (hours_left.value <= 0 && minutes_left.value <= 0) {
                 next_cat_time.value.setDate(next_cat_time.value.getDate() + 1);
                 localStorage.setItem('next_cat_time', next_cat_time.toString());
                 emit('new_cat_quote');
+                send_push_notification();
             }    
         }, 1000);
     }
@@ -75,8 +77,43 @@
     }
 
     function refresh() {
+        subscribeUser()
         emit('new_cat_quote', "pls");
     }
+
+    async function subscribeUser() {
+    const registration = await navigator.serviceWorker.ready;
+
+    const subscription = await registration.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: urlBase64ToUint8Array(publicVapidKey)
+    });
+
+    // Send to your Node.js backend
+    await fetch('http://localhost:4000/subscribe', {
+        method: 'POST',
+        body: JSON.stringify(subscription),
+        headers: {
+        'Content-Type': 'application/json'
+        }
+    });
+    }
+
+    function urlBase64ToUint8Array(base64String) {
+        const padding = '='.repeat((4 - base64String.length % 4) % 4);
+        const base64 = (base64String + padding)
+            .replace(/\-/g, '+')
+            .replace(/_/g, '/');
+
+        const rawData = window.atob(base64);
+        const outputArray = new Uint8Array(rawData.length);
+
+        for (let i = 0; i < rawData.length; ++i) {
+            outputArray[i] = rawData.charCodeAt(i);
+        }
+        return outputArray;
+    }
+
 </script>
 
 <template>
@@ -99,7 +136,7 @@
         <span>[{{ hours_left }} hours, {{ minutes_left }} minutes]</span>
         <br>
         <br>
-        <button @click="refresh()">Refresh</button>
+        <!-- <button @click="refresh()">Refresh</button> -->
     </div>
 </template>
 
