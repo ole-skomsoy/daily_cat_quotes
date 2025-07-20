@@ -1,6 +1,6 @@
 <script setup>
     import { ref, onMounted, onBeforeUnmount } from 'vue';
-    
+
     const next_cat_time = ref(null);
     const hours_left = ref(0);
     const minutes_left = ref(0);
@@ -9,6 +9,7 @@
     const selected_minute = ref(0);
 
     let interval_id = 0;
+    
 
     const emit = defineEmits(['new_cat_quote'])
 
@@ -48,7 +49,7 @@
 
     function setup_interval() {
         interval_id = setInterval(() => {
-            hours_left.value = ((next_cat_time.value - new Date()) / 1000 / 60 / 60).toFixed(0);
+            hours_left.value = ((new Date() - next_cat_time.value) / 1000 / 60 / 60).toFixed(0);
             
             const temp_date = new Date();
             temp_date.setDate(temp_date.getDate() + 1);
