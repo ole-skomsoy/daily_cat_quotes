@@ -11,18 +11,18 @@
   const IS_DOG = false;
 
   let random_quote = reactive({
-    quote: 'loading',
-    author: 'unknown'
+    quote: '"You have power over your mind – not outside events. Realize this, and you will find strength."',
+    author: 'Marcus Aurelius'
   });
 
   onMounted(() => {
     if (IS_DOG) {
-      get_random_dog(false)
-      get_random_quote(false);
+      get_random_dog(true)
+      get_random_quote(true);
 
     } else {
-      get_random_cat(false)
-      get_random_quote(false)
+      get_random_cat(true)
+      get_random_quote(true)
     }
   })
 

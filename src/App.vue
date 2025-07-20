@@ -34,7 +34,7 @@
 
 <template>
   <header>
-    <div style="width:100%; padding-top:24px;" class="wrapper">
+    <div style="width:100%; padding-top:34px;" class="wrapper">
       <HeaderMenu />
     </div>
   </header>
