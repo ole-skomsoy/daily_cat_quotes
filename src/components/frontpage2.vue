@@ -1,5 +1,5 @@
 <script setup>
-  import { onMounted, reactive } from 'vue';
+  import { onMounted, reactive, ref } from 'vue';
   import axios from 'axios';
   import Settings from './Settings.vue';
 
@@ -11,10 +11,12 @@
 
   const IS_DOG = false;
 
-  let random_quote = reactive({
-    quote: 'loading...',
-    author: null
-  });
+  let random_quote = ref(null);
+  let random_author = ref(null);
+  // let random_quote = reactive({
+  //   quote: 'loading...',
+  //   author: null
+  // });
 
   onMounted(() => {
     if (IS_DOG) {
@@ -79,8 +81,10 @@
   async function get_random_quote(force) {
     try {
       var quote = await axios.get(RANDOM_QUOTE_URL);
-      random_quote.quote = quote['data']['quote']['body'];
-      random_quote.author = quote['data']['quote']['author'];
+      console.log(quote);
+      random_quote.value = quote['data']['quote']['body'];
+      random_author.value = quote['data']['quote']['author'];
+      console.log(random_quote, random_author);
     } catch (error) {
       console.log('Error fetching quote!', error);
     }
@@ -99,8 +103,8 @@
 <template>
   <div class="wrapper">
     <img id="cat_image" class="image" src="" alt="random cat">
-    <p> {{ random_quote.quote }} </p>
-    <p> - {{ random_quote.author }} </p>
+    <p> {{ random_quote }} </p>
+    <p> - {{ random_author }} </p>
     <Settings @new_cat_quote="handle_new_cat_quote" />
   </div>
 </template>
