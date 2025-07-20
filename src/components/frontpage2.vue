@@ -11,8 +11,8 @@
   const IS_DOG = false;
 
   let random_quote = reactive({
-    quote: '"You have power over your mind – not outside events. Realize this, and you will find strength."',
-    author: 'Marcus Aurelius'
+    quote: 'loading...',
+    author: null
   });
 
   onMounted(() => {
@@ -45,12 +45,12 @@
   async function get_random_dog(force) {
     try {
       var dog_image_url = localStorage.dog_image_url;
-      if (dog_image_url == null || force) {
+      // if (dog_image_url == null || force) {
         var response = await fetch(`${RANDOM_DOG_URL}/breeds/image/random`)
         const response_json = await response.json()
         dog_image_url = response_json.message
         localStorage.dog_image_url = response_json.message
-      }
+      // }
         var image_element = document.getElementById('cat_image');
         image_element.src = dog_image_url;
     } catch (error) {
@@ -62,13 +62,13 @@
     try {
       var quote = localStorage.quote;
       var author = localStorage.author;
-      if (quote == null || force) {
+      // if (quote == null || force) {
         var response = await axios.get(RANDOM_QUOTE_URL);
         quote = response.data[0].q;
         author = response.data[0].a
         localStorage.quote = response.data[0].q;
         localStorage.author = response.data[0].a
-      }
+      // }
       random_quote.quote = quote;
       random_quote.author = author;
     } catch (error) { 
