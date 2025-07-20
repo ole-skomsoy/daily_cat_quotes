@@ -1,7 +1,7 @@
 const config = {
   appId: '86f02a7a',
   appName: 'Daily Cat Quotes',
-  webDir: 'www',
+  webDir: 'public',
 };
 
 export default config;
