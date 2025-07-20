@@ -100,8 +100,11 @@
 
 <style>
   .wrapper {
+    padding: 10px;
   }
   .image {
+    width: 100%;
+    height: auto;
     object-fit: cover;
   }
 </style>
