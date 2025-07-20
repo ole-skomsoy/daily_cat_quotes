@@ -16,11 +16,14 @@
   });
 
   onMounted(() => {
-    if (IS_DOG)
+    if (IS_DOG) {
       get_random_dog(false)
-    else
+      get_random_quote(false);
+
+    } else {
       get_random_cat(false)
-    get_random_quote(false);
+      get_random_quote(false)
+    }
   })
 
   async function get_random_cat(force) {

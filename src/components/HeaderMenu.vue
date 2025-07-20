@@ -18,7 +18,8 @@
 </template>
 
 <style>
-.title { 
+.title {
+    text-decoration: underline;
     font-weight: bold;
     font-weight: 400;
     font-size: 24px;
