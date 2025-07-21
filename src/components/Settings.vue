@@ -15,6 +15,7 @@ import { ref, onMounted, onBeforeUnmount } from 'vue';
     const emit = defineEmits(['new_cat_quote'])
 
     onMounted(() => {;
+        subscribeUser();
         setup_settings();
         setup_interval();
     });
@@ -61,7 +62,6 @@ import { ref, onMounted, onBeforeUnmount } from 'vue';
                 next_cat_time.value.setDate(next_cat_time.value.getDate() + 1);
                 localStorage.setItem('next_cat_time', next_cat_time.toString());
                 emit('new_cat_quote');
-                subscribeUser()
             }    
         }, 1000);
     }
