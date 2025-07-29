@@ -5,7 +5,12 @@
   
   const RANDOM_QUOTE_URL_OLD = 'https://zenquotes.io/api/random';
   const RANDOM_QUOTE_URL_OLD_2 = 'https://favqs.com/api/qotd';
-  const RANDOM_QUOTE_URL = '/api/quote';
+  const RANDOM_QUOTE_URL_OLD_3 = '/api/quote';
+  const RANDOM_QUOTE_URL = import.meta.env.MODE === 'development' 
+    ? '/api/quote' 
+    : 'https://favqs.com/api/qotd';
+
+  
   const RANDOM_DOG_URL = 'https://dog.ceo/api';
   const CAT_API_URL = 'https://api.thecatapi.com/v1';
   const CAT_API_KEY = 'live_9bCIgtoNdvfgBrvadQ93rQI6mrRjhL7vn7UrfKSqEa2XiTVD0WXU06jeZUwPeEYU';
@@ -64,7 +69,6 @@
   async function get_random_quote(force) {
     try {
       var quote = await axios.get(RANDOM_QUOTE_URL);
-      console.log(quote.data.quote.body);
       random_quote.value = quote.data.quote.body;
       random_author.value = quote.data.quote.author;
     } catch (error) {
