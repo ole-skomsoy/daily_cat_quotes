@@ -11,8 +11,8 @@
 
   const IS_DOG = false;
 
-  let random_quote = ref(null);
-  let random_author = ref(null);
+  let random_quote = ref('l o a d i n g . . .');
+  let random_author = ref('u n k n o w n');
   // let random_quote = reactive({
   //   quote: 'loading...',
   //   author: null
