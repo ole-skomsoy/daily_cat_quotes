@@ -8,9 +8,8 @@
   const RANDOM_QUOTE_URL_OLD_3 = '/api/quote';
   const RANDOM_QUOTE_URL = import.meta.env.MODE === 'development' 
     ? '/api/quote' 
-    : 'https://zenquotes.io/api/random';
+    : 'https://corsproxy.io/?https://zenquotes.io/api/random';
 
-  
   const RANDOM_DOG_URL = 'https://dog.ceo/api';
   const CAT_API_URL = 'https://api.thecatapi.com/v1';
   const CAT_API_KEY = 'live_9bCIgtoNdvfgBrvadQ93rQI6mrRjhL7vn7UrfKSqEa2XiTVD0WXU06jeZUwPeEYU';
