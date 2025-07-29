@@ -1,5 +1,4 @@
 import { fileURLToPath, URL } from 'node:url'
-
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueDevTools from 'vite-plugin-vue-devtools'
@@ -17,10 +16,17 @@ export default defineConfig({
   },
   server: {
     proxy: {
+      // Proxy for FavQs API
       '/api/quote': {
         target: 'https://favqs.com',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api\/quote/, '/api/qotd'),
+      },
+      // Proxy for ZenQuotes API
+      '/api/zenquote': {
+        target: 'https://zenquotes.io',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api\/zenquote/, '/api/random'),
       },
     },
   },
