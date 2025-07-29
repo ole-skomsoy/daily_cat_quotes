@@ -4,7 +4,8 @@
   import Settings from './Settings.vue';
   
   const RANDOM_QUOTE_URL_OLD = 'https://zenquotes.io/api/random';
-  const RANDOM_QUOTE_URL = 'https://favqs.com/api/qotd';
+  const RANDOM_QUOTE_URL_OLD_2 = 'https://favqs.com/api/qotd';
+  const RANDOM_QUOTE_URL = '/api/quote';
   const RANDOM_DOG_URL = 'https://dog.ceo/api';
   const CAT_API_URL = 'https://api.thecatapi.com/v1';
   const CAT_API_KEY = 'live_9bCIgtoNdvfgBrvadQ93rQI6mrRjhL7vn7UrfKSqEa2XiTVD0WXU06jeZUwPeEYU';
