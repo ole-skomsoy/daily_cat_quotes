@@ -67,6 +67,8 @@
       // var quote = await Http.get({ url: RANDOM_QUOTE_URL });
 
       console.log(quote);
+      console.log(quote['data']['quote']['body']);
+      console.log(quote['data']['quote']['author']);
       random_quote.value = quote['data']['quote']['body'];
       random_author.value = quote['data']['quote']['author'];
 
