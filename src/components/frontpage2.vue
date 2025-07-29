@@ -66,6 +66,7 @@
       var quote = await axios.get(RANDOM_QUOTE_URL);
       // var quote = await Http.get({ url: RANDOM_QUOTE_URL });
 
+      console.log(quote);
       random_quote.value = quote['data']['quote']['body'];
       random_author.value = quote['data']['quote']['author'];
 

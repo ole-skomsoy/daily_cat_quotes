@@ -2,7 +2,7 @@
   import FrontPage from './components/frontpage2.vue';
   import HeaderMenu from './components/HeaderMenu.vue';
   import { initializeApp } from "firebase/app";
-  import { getMessaging, getToken, onMessage } from "firebase/messaging";
+  import { getMessaging, getToken, onMessage, isSupported  } from "firebase/messaging";
   
 
   const firebaseConfig = {
@@ -14,7 +14,26 @@
     appId: "1:526553757415:web:b67bebade8fa1c024f5442"
   };
 
+
   const app = initializeApp(firebaseConfig);
+
+  async function setupFirebaseMessaging() {
+    const supported = await isSupported()
+
+    if (!supported) {
+      console.warn('Firebase Messaging is not supported in this browser.')
+      return
+    }
+
+    const messaging = getMessaging(app)
+    const swRegistration = await navigator.serviceWorker.register('/firebase-messaging-sw.js')
+    const token = await getToken(messaging, {
+      vapidKey: 'BMMCRbCSuVzUqLuu1NoAu7uah708rGx5W7tBFUI8FDjxLPjvUwT9Pf6NV4yceYGO--16vxRFdwxfqckDcM82t40',
+      serviceWorkerRegistration: swRegistration
+    })
+
+    console.log('FCM token:', token)
+  }
 
   const messaging = getMessaging();
   onMessage(messaging, (payload) => {
