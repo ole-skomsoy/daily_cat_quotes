@@ -8,7 +8,7 @@
   const RANDOM_QUOTE_URL_OLD_3 = '/api/quote';
   const RANDOM_QUOTE_URL = import.meta.env.MODE === 'development' 
     ? '/api/quote' 
-    : 'https://favqs.com/api/qotd';
+    : 'https://zenquotes.io/api/random';
 
   
   const RANDOM_DOG_URL = 'https://dog.ceo/api';
