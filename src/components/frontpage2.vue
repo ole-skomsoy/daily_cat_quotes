@@ -11,8 +11,8 @@
 
   const IS_DOG = false;
 
-  let random_quote = ref('l o a d i n g . . .');
-  let random_author = ref('u n k n o w n');
+  const random_quote = ref('l o a d i n g . . .');
+  const random_author = ref('u n k n o w n');
   // let random_quote = reactive({
   //   quote: 'loading...',
   //   author: null
@@ -68,11 +68,11 @@
       random_quote.value = quote['data']['quote']['body'];
       random_author.value = quote['data']['quote']['author'];
 
-      var quote_element = document.getElementById('quote');
-      quote_element.innerHTML = quote['data']['quote']['body'];
+      // var quote_element = document.getElementById('quote');
+      // quote_element.innerHTML = quote['data']['quote']['body'];
 
-      var author_element = document.getElementById('author');
-      author_element.innerHTML = quote['data']['quote']['author'];
+      // var author_element = document.getElementById('author');
+      // author_element.innerHTML = quote['data']['quote']['author'];
 
     } catch (error) {
       console.log('Error fetching quote!', error);
