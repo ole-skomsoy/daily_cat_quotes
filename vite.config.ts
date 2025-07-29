@@ -12,16 +12,16 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url))
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
   server: {
     proxy: {
       '/api/quote': {
-        target: 'https://favqs.com/api/qotd',
+        target: 'https://favqs.com',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api\/quote/, '')
-      }
-    }
-  }
+        rewrite: (path) => path.replace(/^\/api\/quote/, '/api/qotd'),
+      },
+    },
+  },
 })
