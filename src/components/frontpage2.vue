@@ -67,6 +67,13 @@
 
       random_quote.value = quote['data']['quote']['body'];
       random_author.value = quote['data']['quote']['author'];
+
+      var quote_element = document.getElementById('quote');
+      quote_element.innerHTML = quote['data']['quote']['body'];
+
+      var author_element = document.getElementById('author');
+      author_element.innerHTML = quote['data']['quote']['author'];
+
     } catch (error) {
       console.log('Error fetching quote!', error);
     }
@@ -85,8 +92,8 @@
 <template>
   <div class="wrapper">
     <img id="cat_image" class="image" src="" alt="random cat">
-    <p> {{ random_quote }} </p>
-    <p> - {{ random_author }} </p>
+    <p id="quote"> {{ random_quote }} </p>
+    <p id="author"> - {{ random_author }} </p>
     <Settings @new_cat_quote="handle_new_cat_quote" />
   </div>
 </template>
