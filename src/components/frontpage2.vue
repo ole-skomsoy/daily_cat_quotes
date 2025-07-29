@@ -31,12 +31,12 @@
   async function get_random_cat(force) {
     try {
       var cat_image_url = localStorage.cat_image_url;
-    if (cat_image_url == null || force) {
+    // if (cat_image_url == null || force) {
       var response = await fetch(`${CAT_API_URL}/images/search?api_key=${CAT_API_KEY}`);
       const response_json = await response.json()
       cat_image_url = response_json[0]['url'];
       localStorage.cat_image_url = response_json[0]['url']
-    }
+    // }
       var image_element = document.getElementById('cat_image');
       image_element.src = cat_image_url;
     } catch (error) {
