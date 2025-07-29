@@ -64,20 +64,11 @@
   async function get_random_quote(force) {
     try {
       var quote = await axios.get(RANDOM_QUOTE_URL);
-      // var quote = await Http.get({ url: RANDOM_QUOTE_URL });
-
       console.log(quote);
       console.log(quote['data']['quote']['body']);
       console.log(quote['data']['quote']['author']);
       random_quote.value = quote['data']['quote']['body'];
       random_author.value = quote['data']['quote']['author'];
-
-      // var quote_element = document.getElementById('quote');
-      // quote_element.innerHTML = quote['data']['quote']['body'];
-
-      // var author_element = document.getElementById('author');
-      // author_element.innerHTML = quote['data']['quote']['author'];
-
     } catch (error) {
       console.log('Error fetching quote!', error);
     }
