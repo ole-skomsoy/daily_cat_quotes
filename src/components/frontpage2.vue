@@ -6,9 +6,12 @@
   const RANDOM_QUOTE_URL_OLD = 'https://zenquotes.io/api/random';
   const RANDOM_QUOTE_URL_OLD_2 = 'https://favqs.com/api/qotd';
   const RANDOM_QUOTE_URL_OLD_3 = '/api/quote';
-  const RANDOM_QUOTE_URL = import.meta.env.MODE === 'development' 
-    ? '/api/quote' 
-    : 'https://corsproxy.io/?https://zenquotes.io/api/random';
+  // const RANDOM_QUOTE_URL = import.meta.env.MODE === 'development' 
+  //   ? '/api/quote' 
+  //   : 'https://corsproxy.io/?https://zenquotes.io/api/random';
+// const RANDOM_QUOTE_URL = '/api/quote';
+const RANDOM_QUOTE_URL = 'https://corsproxy.io/?https://zenquotes.io/api/random';
+
 
   const RANDOM_DOG_URL = 'https://dog.ceo/api';
   const CAT_API_URL = 'https://api.thecatapi.com/v1';
@@ -68,9 +71,14 @@
   async function get_random_quote(force) {
     try {
       var quote = await axios.get(RANDOM_QUOTE_URL);
-      // console.log('>>> quote[raw]:', quote, quote.data.quote.body);
-      random_quote.value = quote.data.quote.body;
-      random_author.value = quote.data.quote.author;
+      if (import.meta.env.MODE === 'development') {
+        console.log('>>> quote[development]:', quote, quote.data.quote.body, quote.data.quote.author);
+        random_quote.value = quote.data.quote.body;
+        random_author.value = quote.data.quote.author;
+      } else {
+        console.log('>>> quote[live]:', quote, quote["data"][0]);
+      }
+
     } catch (error) {
       console.log('Error fetching quote!', error);
     }
