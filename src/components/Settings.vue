@@ -137,11 +137,33 @@ import { ref, onMounted, onBeforeUnmount } from 'vue';
         <br>
         <br>
         <br>
-        <div style="display: flex; flex-direction: row; align-items: end; justify-content: center;">
-            <button @click="refresh()">I can't wait</button>
+        <div style="display: flex; flex-direction: row; align-items: end; justify-content: center; margin-top: 20px;">
+            <button @click="refresh()" class="fancy-button">I can't wait</button>
         </div>
     </div>
 </template>
 
 <style>
+.fancy-button {
+  background: linear-gradient(to right, #ff8a00, #e52e71);
+  border: none;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.fancy-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+}
+
+.fancy-button:active {
+  transform: scale(0.98);
+}
+
 </style>
