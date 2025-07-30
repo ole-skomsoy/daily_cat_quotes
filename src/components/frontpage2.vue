@@ -76,7 +76,9 @@
         random_quote.value = quote.data.quote.body;
         random_author.value = quote.data.quote.author;
       } else {
-        console.log('>>> quote[live]:', quote, quote["data"][0]);
+        console.log('>>> quote[live]:', quote, quote["data"][0]["q"], quote["data"][0]["a"]);
+        random_quote.value = quote["data"][0]["q"];
+        random_author.value = quote["data"][0]["a"];
       }
 
     } catch (error) {
