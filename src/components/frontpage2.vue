@@ -90,7 +90,7 @@
 
 <template>
   <div class="wrapper">
-    <img id="cat_image" class="image" src="" alt="random cat">
+    <img id="cat_image" class="image" src="/logo.png" alt="random cat">
     <p id="quote"> {{ random_quote }} </p>
     <p id="author"> - {{ random_author }} </p>
     <Settings @new_cat_quote="handle_new_cat_quote" />
