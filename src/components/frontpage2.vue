@@ -6,11 +6,11 @@
   const RANDOM_QUOTE_URL_OLD = 'https://zenquotes.io/api/random';
   const RANDOM_QUOTE_URL_OLD_2 = 'https://favqs.com/api/qotd';
   const RANDOM_QUOTE_URL_OLD_3 = '/api/quote';
-  // const RANDOM_QUOTE_URL = import.meta.env.MODE === 'development' 
-  //   ? '/api/quote' 
-  //   : 'https://corsproxy.io/?https://zenquotes.io/api/random';
+  const RANDOM_QUOTE_URL = import.meta.env.MODE === 'development' 
+    ? '/api/quote' 
+    : 'https://corsproxy.io/?https://zenquotes.io/api/random';
 // const RANDOM_QUOTE_URL = '/api/quote';
-const RANDOM_QUOTE_URL = 'https://corsproxy.io/?https://zenquotes.io/api/random';
+// const RANDOM_QUOTE_URL = 'https://corsproxy.io/?https://zenquotes.io/api/random';
 
 
   const RANDOM_DOG_URL = 'https://dog.ceo/api';
