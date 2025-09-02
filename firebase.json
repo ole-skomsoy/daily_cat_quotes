@@ -1,0 +1,21 @@
+{
+  "hosting": {
+    "public": "dist",
+    "rewrites": [
+      {
+        "source": "/api/zenquote",
+        "run": {
+          "serviceId": "default",
+          "region": "europe-west1"
+        }
+      },
+      {
+        "source": "/api/quote",
+        "run": {
+          "serviceId": "default",
+          "region": "europe-west1"
+        }
+      }
+    ]
+  }
+}

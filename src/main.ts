@@ -7,6 +7,8 @@ const app = createApp(App);
 app.component(VueCountdown.name || 'Daily Cat Quotes', VueCountdown);
 app.mount('#app');
 
+// createApp(App).mount('#app')
+
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('/sw.js')

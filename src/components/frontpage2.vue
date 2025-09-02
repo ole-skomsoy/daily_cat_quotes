@@ -4,16 +4,18 @@
   import Settings from './Settings.vue';
   
   const RANDOM_QUOTE_URL_OLD = 'https://zenquotes.io/api/random';
-  const RANDOM_QUOTE_URL_OLD_2 = 'https://favqs.com/api/qotd';
   const RANDOM_QUOTE_URL_OLD_3 = '/api/quote';
-  const RANDOM_QUOTE_URL = import.meta.env.MODE === 'development' 
-    ? '/api/quote' 
-    : 'https://corsproxy.io/?https://zenquotes.io/api/random';
-// const RANDOM_QUOTE_URL = '/api/quote';
+  // const RANDOM_QUOTE_URL = import.meta.env.MODE === 'development' 
+  //   ? '/api/quote' 
+  //   : 'https://corsproxy.io/?https://zenquotes.io/api/random';
+  const RANDOM_QUOTE_URL = '/api/zenquote';
+  // const RANDOM_QUOTE_URL = 'https://corsproxy.io/?https://zenquotes.io/api/random';
 // const RANDOM_QUOTE_URL = 'https://corsproxy.io/?https://zenquotes.io/api/random';
 
   // get notified at this time: 
 
+  // const RANDOM_DOG_URL = 'https://dog.ceo/api';
+  // const CAT_API_URL = 'https://api.thecatapi.com/v1';
   const RANDOM_DOG_URL = 'https://dog.ceo/api';
   const CAT_API_URL = 'https://api.thecatapi.com/v1';
   const CAT_API_KEY = 'live_9bCIgtoNdvfgBrvadQ93rQI6mrRjhL7vn7UrfKSqEa2XiTVD0WXU06jeZUwPeEYU';
@@ -28,6 +30,7 @@
   // });
 
   onMounted(() => {
+    console.log('>>> frontpage mounted')
     if (IS_DOG) {
       get_random_dog(true)
       get_random_quote(true);
@@ -71,17 +74,12 @@
 
   async function get_random_quote(force) {
     try {
-      var quote = await axios.get(RANDOM_QUOTE_URL);
-      if (import.meta.env.MODE === 'development') {
-        console.log('>>> quote[development]:', quote, quote.data.quote.body, quote.data.quote.author);
-        random_quote.value = quote.data.quote.body;
-        random_author.value = quote.data.quote.author;
-      } else {
-        console.log('>>> quote[live]:', quote, quote["data"][0]["q"], quote["data"][0]["a"]);
-        random_quote.value = quote["data"][0]["q"];
-        random_author.value = quote["data"][0]["a"];
-      }
-
+      const res = await fetch(RANDOM_QUOTE_URL, {
+        headers: { Accept: 'application/json' }
+      });
+      const data = await res.json();
+      random_quote.value = data[0]["q"];
+      random_author.value = data[0]["a"];
     } catch (error) {
       console.log('Error fetching quote!', error);
     }

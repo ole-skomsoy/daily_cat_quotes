@@ -8,10 +8,10 @@
     <div class="navbar-wrapper">
         <div class="navbar">    
             <p v-if="IS_DOG" class="title">
-                Daily Dog Quote
+                Daily Dog Quotes
             </p>
             <p v-if="!IS_DOG" class="title">
-                Daily Cat Quote
+                Daily Cat Quotes
             </p>
         </div>
     </div>
