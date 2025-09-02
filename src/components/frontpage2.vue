@@ -12,6 +12,7 @@
 // const RANDOM_QUOTE_URL = '/api/quote';
 // const RANDOM_QUOTE_URL = 'https://corsproxy.io/?https://zenquotes.io/api/random';
 
+  // get notified at this time: 
 
   const RANDOM_DOG_URL = 'https://dog.ceo/api';
   const CAT_API_URL = 'https://api.thecatapi.com/v1';
@@ -87,6 +88,7 @@
   }
 
   async function handle_new_cat_quote() {
+    console.log('>>> frontpage.handle_new_cat_quote')
     if (IS_DOG)
       get_random_dog(true)
     else

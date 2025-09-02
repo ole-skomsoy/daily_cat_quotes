@@ -5,6 +5,7 @@
 body {
   padding: 0;
   margin: 0;
+  margin-bottom: 24px;
   color: white;
   font-family: Monospace;
   font-style: normal;

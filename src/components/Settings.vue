@@ -82,21 +82,21 @@ import { ref, onMounted, onBeforeUnmount } from 'vue';
     }
 
     async function subscribeUser() {
-    const registration = await navigator.serviceWorker.ready;
+        const registration = await navigator.serviceWorker.ready;
 
-    const subscription = await registration.pushManager.subscribe({
-        userVisibleOnly: true,
-        applicationServerKey: urlBase64ToUint8Array(publicVapidKey)
-    });
+        const subscription = await registration.pushManager.subscribe({
+            userVisibleOnly: true,
+            applicationServerKey: urlBase64ToUint8Array(publicVapidKey)
+        });
 
-    // Send to your Node.js backend
-    await fetch('http://localhost:4000/subscribe', {
-        method: 'POST',
-        body: JSON.stringify(subscription),
-        headers: {
-        'Content-Type': 'application/json'
-        }
-    });
+        // Send to your Node.js backend
+        await fetch('http://localhost:4000/subscribe', {
+            method: 'POST',
+            body: JSON.stringify(subscription),
+            headers: {
+            'Content-Type': 'application/json'
+            }
+        });
     }
 
     function urlBase64ToUint8Array(base64String) {
@@ -118,7 +118,7 @@ import { ref, onMounted, onBeforeUnmount } from 'vue';
 
 <template>
     <div>
-        <br>
+        <!-- <br>
         <span><b>Cat time o'clock</b></span>
         <br>
         <select v-model="selected_hour" @change="handle_alarm_time_changed">
@@ -136,9 +136,9 @@ import { ref, onMounted, onBeforeUnmount } from 'vue';
         <span>[{{ hours_left }} hours, {{ minutes_left }} minutes]</span>
         <br>
         <br>
-        <br>
+        <br> -->
         <div style="display: flex; flex-direction: row; align-items: end; justify-content: center; margin-top: 20px;">
-            <button @click="refresh()" class="fancy-button">I can't wait</button>
+            <button @click="refresh()" class="fancy-button">Another One</button>
         </div>
     </div>
 </template>
