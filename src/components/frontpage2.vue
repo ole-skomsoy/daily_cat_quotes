@@ -24,13 +24,11 @@
 
   const random_quote = ref('l o a d i n g . . .');
   const random_author = ref('u n k n o w n');
-  // let random_quote = reactive({
-  //   quote: 'loading...',
-  //   author: null
-  // });
+  var loading = ref(false)
 
   onMounted(() => {
     console.log('>>> frontpage mounted')
+    loading.value = true
     if (IS_DOG) {
       get_random_dog(true)
       get_random_quote(true);
@@ -82,11 +80,13 @@
       random_author.value = data[0]["a"];
     } catch (error) {
       console.log('Error fetching quote!', error);
+    } finally {
+      loading.value = false
     }
   }
 
-  async function handle_new_cat_quote() {
-    console.log('>>> frontpage.handle_new_cat_quote')
+  async function handle_refresh() {
+    loading.value = true
     if (IS_DOG)
       get_random_dog(true)
     else
@@ -101,7 +101,7 @@
     <img id="cat_image" class="image" src="/logo.png" alt="random cat">
     <p id="quote"> {{ random_quote }} </p>
     <p id="author"> - {{ random_author }} </p>
-    <Settings @new_cat_quote="handle_new_cat_quote" />
+    <Settings :loading=loading @refresh="handle_refresh" />
   </div>
 </template>
 

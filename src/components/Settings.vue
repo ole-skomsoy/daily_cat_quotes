@@ -11,8 +11,11 @@ import { ref, onMounted, onBeforeUnmount } from 'vue';
 
     let interval_id = 0;
     
+    const props = defineProps({
+        loading: { type: Boolean, default: false },
+    });
 
-    const emit = defineEmits(['new_cat_quote'])
+    const emit = defineEmits(['refresh'])
 
     onMounted(() => {;
         subscribeUser();
@@ -78,7 +81,7 @@ import { ref, onMounted, onBeforeUnmount } from 'vue';
 
     function refresh() {
         subscribeUser()
-        emit('new_cat_quote', "pls");
+        emit('refresh', true);
     }
 
     async function subscribeUser() {
@@ -118,27 +121,17 @@ import { ref, onMounted, onBeforeUnmount } from 'vue';
 
 <template>
     <div>
-        <!-- <br>
-        <span><b>Cat time o'clock</b></span>
-        <br>
-        <select v-model="selected_hour" @change="handle_alarm_time_changed">
-            <option v-for="n in 24" :value="n-1">{{ n-1 }}</option>
-        </select>
-        <select v-model="selected_minute" @change="handle_alarm_time_changed">
-            <option v-for="n in 60" :value="n-1">{{ n-1 }}</option>
-        </select>
-        <br>
-        <br>
-        <span><b>Next cat time</b></span>
-        <br>
-        <span>{{ next_cat_time }}</span> 
-        <br>
-        <span>[{{ hours_left }} hours, {{ minutes_left }} minutes]</span>
-        <br>
-        <br>
-        <br> -->
         <div style="display: flex; flex-direction: row; align-items: end; justify-content: center; margin-top: 20px;">
-            <button @click="refresh()" class="fancy-button">Another One</button>
+            <button v-if="!loading" @click="refresh()" class="fancy-button">Another One</button>
+            <div
+                v-else
+                class="fancy-button fancy-loader"
+                role="status"
+                aria-live="polite"
+                aria-label="Loading"
+            >
+                <span class="spinner" aria-hidden="true"></span>
+            </div>
         </div>
     </div>
 </template>
@@ -157,13 +150,41 @@ import { ref, onMounted, onBeforeUnmount } from 'vue';
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.fancy-button:hover {
-  transform: scale(1.05);
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+/* Optional hover/active states for the button */
+.fancy-button:not(.fancy-loader):hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.24);
+}
+.fancy-button:not(.fancy-loader):active {
+  transform: translateY(0);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
 }
 
-.fancy-button:active {
-  transform: scale(0.98);
+/* Loader variant uses same base styling, but laid out like a pill with spinner */
+.fancy-loader {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  cursor: default; /* no click while loading */
+  user-select: none;
+}
+
+/* Minimal spinner that matches the button */
+.spinner {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.45);
+  border-top-color: #fff;
+  animation: spin 0.8s linear infinite;
+}
+
+.loader-text {
+  font-weight: 600;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
 
 </style>
